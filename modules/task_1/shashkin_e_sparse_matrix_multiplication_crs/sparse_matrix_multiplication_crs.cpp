@@ -37,9 +37,10 @@ SparseComplexMatrix::SparseComplexMatrix(const SparseComplexMatrix& sparse_compl
   row_index = sparse_complex_matrix.row_index;
 }
 
-std::vector<std::vector<std::complex<double>>> randomMatrix(int _rows_num, int _cols_num) {
+std::vector<std::vector<std::complex<double>>> randomMatrix(int _rows_num, int _cols_num, double percent) {
   std::mt19937 gen;
   gen.seed(static_cast<unsigned int>(time(0)));
+  std::uniform_real_distribution<double> prob(0.0, 100.0);
   std::vector<std::vector<std::complex<double>>> result(_rows_num);
   for (int i = 0; i < _rows_num; ++i)
     result[i].resize(_cols_num);
@@ -47,7 +48,7 @@ std::vector<std::vector<std::complex<double>>> randomMatrix(int _rows_num, int _
     for (int j = 0; j < _cols_num; ++j) {
       std::complex<double> val(0.0, 0.0);
       result[i][j] = val;
-      if (gen() % 10 >= 8) {
+      if (prob(gen) <= percent) {
         std::complex<double> tmp(static_cast<double>(gen() % 10), static_cast<double>(gen() % 10));
         result[i][j] = tmp;
       }
@@ -186,4 +187,8 @@ void print(std::vector<std::vector<std::complex<double>>> matrix) {
       std::cout << matrix[i][j] << " ";
     std::cout << "\n";
   }
+}
+
+int SparseComplexMatrix::getVeluseNum() {
+  return static_cast<int>(values.size());
 }

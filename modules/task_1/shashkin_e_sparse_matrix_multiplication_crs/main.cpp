@@ -13,7 +13,7 @@ TEST(SparceMatrixMultiplication, throw_when_num_of_rows_or_num_of_cols_is_negati
 TEST(SparceMatrixMultiplication, can_convert_regular_matrix_to_csr) {
   std::vector<std::vector<std::complex<double>>> mat;
   SparseComplexMatrix crsMat;
-  mat = randomMatrix(5, 5);
+  mat = randomMatrix(5, 5, 30);
   ASSERT_NO_THROW(crsMat.matrixToCRS(mat));
 }
 
@@ -41,27 +41,29 @@ TEST(SparceMatrixMultiplication, can_multimply_square_csr_matrices) {
   SparseComplexMatrix crsMat1;
   SparseComplexMatrix crsMat2;
   SparseComplexMatrix crsMat3;
-  mat1 = randomMatrix(size, size);
-  mat2 = randomMatrix(size, size);
+  mat1 = randomMatrix(size, size, 30);
+  mat2 = randomMatrix(size, size, 30);
   crsMat1 = crsMat1.matrixToCRS(mat1);
   crsMat2 = crsMat2.matrixToCRS(mat2);
   ASSERT_NO_THROW(crsMat3 = crsMat1 * crsMat2);
 }
 
 TEST(SparceMatrixMultiplication, can_multimply_not_square_csr_matrices) {
-  int rows1 = 5;
-  int cols1 = 3;
-  int rows2 = 3;
-  int cols2 = 6;
+  int rows1 = 10001;
+  int cols1 = 4999;
+  int rows2 = 4999;
+  int cols2 = 6001;
+  double coeff = 0.001;
   std::vector<std::vector<std::complex<double>>> mat1;
   std::vector<std::vector<std::complex<double>>> mat2;
   SparseComplexMatrix crsMat1;
   SparseComplexMatrix crsMat2;
   SparseComplexMatrix crsMat3;
-  mat1 = randomMatrix(rows1, cols1);
-  mat2 = randomMatrix(rows2, cols2);
+  mat1 = randomMatrix(rows1, cols1, coeff);
+  mat2 = randomMatrix(rows2, cols2, coeff);
   crsMat1 = crsMat1.matrixToCRS(mat1);
   crsMat2 = crsMat2.matrixToCRS(mat2);
+  std::cout << crsMat1.getVeluseNum();
   ASSERT_NO_THROW(crsMat3 = crsMat1 * crsMat2);
 }
 

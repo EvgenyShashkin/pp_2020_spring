@@ -18,6 +18,7 @@ class SparseComplexMatrix {
   std::vector<int> col_index;
   std::vector<int> row_index;
  public:
+   int getVeluseNum();
   SparseComplexMatrix();
   SparseComplexMatrix(int _rows_num, int _cols_num);
   SparseComplexMatrix(int _rows_num, int _cols_num, std::vector<std::complex<double>> _values,
@@ -30,6 +31,6 @@ class SparseComplexMatrix {
   void printCRS();
 };
 
-std::vector<std::vector<std::complex<double>>> randomMatrix(int _rows_num, int _cols_num);
+std::vector<std::vector<std::complex<double>>> randomMatrix(int _rows_num, int _cols_num, double percent);
 void print(std::vector<std::vector<std::complex<double>>> matrix);
 #endif  // MODULES_TASK_1_SHASHKIN_E_SPARSE_MATRIX_MULTIPLICATION_CRS_SPARSE_MATRIX_MULTIPLICATION_CRS_H_
