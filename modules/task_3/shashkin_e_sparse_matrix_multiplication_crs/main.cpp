@@ -50,11 +50,11 @@ TEST(SparseMatrixMultiplication, can_multimply_square_crs_matrices) {
 }
 
 TEST(SparseMatrixMultiplication, can_multimply_not_square_crs_matrices) {
-  int rows1 = 60;
-  int cols1 = 30;
-  int rows2 = 30;
-  int cols2 = 20;
-  double percent = 1.0;
+  int rows1 = 9001;
+  int cols1 = 3999;
+  int rows2 = 3999;
+  int cols2 = 6001;
+  double percent = 0.1;
   std::vector<std::vector<std::complex<double>>> mat1;
   std::vector<std::vector<std::complex<double>>> mat2;
   SparseComplexMatrix crsMat1;
@@ -65,16 +65,16 @@ TEST(SparseMatrixMultiplication, can_multimply_not_square_crs_matrices) {
   mat2 = randomMatrix(rows2, cols2, percent);
   crsMat1 = crsMat1.matrixToCRS(mat1);
   crsMat2 = crsMat2.matrixToCRS(mat2);
-  /*tbb::tick_count start_seq = tbb::tick_count::now();*/
+  tbb::tick_count start_seq = tbb::tick_count::now();
   crsMat3 = crsMat1 * crsMat2;
-  /*tbb::tick_count end_seq = tbb::tick_count::now();
-  tbb::tick_count start_par = tbb::tick_count::now();*/
+  tbb::tick_count end_seq = tbb::tick_count::now();
+  tbb::tick_count start_par = tbb::tick_count::now();
   crsMat4 = crsMat1.crsParallelMult(crsMat2);
-  /*tbb::tick_count end_par = tbb::tick_count::now();
-  std::cout << crsMat1.getValuesNum() << "\n";
-  std::cout << crsMat2.getValuesNum() << "\n";
+  tbb::tick_count end_par = tbb::tick_count::now();
+  /*std::cout << crsMat1.getValuesNum() << "\n";
+  std::cout << crsMat2.getValuesNum() << "\n";*/
   std::cout << "Seq time: " << (end_seq - start_seq).seconds() << "\n";
-  std::cout << "Par time: " << (end_par - start_par).seconds() << "\n";*/
+  std::cout << "Par time: " << (end_par - start_par).seconds() << "\n";
   ASSERT_TRUE(crsMat3 == crsMat4);
 }
 
