@@ -24,6 +24,7 @@ class SparseComplexMatrix {
     std::vector<int> _col_index, std::vector<int> _row_index);
   SparseComplexMatrix(const SparseComplexMatrix& sparse_complex_matrix);
   bool operator==(const SparseComplexMatrix& mat) const&;
+  int getValuesNum();
   SparseComplexMatrix operator*(const SparseComplexMatrix& mat) const&;
   SparseComplexMatrix crsParallelMult(const SparseComplexMatrix& mat) const&;
   SparseComplexMatrix matrixToCRS(std::vector<std::vector<std::complex<double>>> matrix);

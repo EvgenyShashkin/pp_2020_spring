@@ -50,11 +50,11 @@ TEST(SparceMatrixMultiplication, can_multimply_square_csr_matrices) {
 }
 
 TEST(SparceMatrixMultiplication, can_multimply_not_square_csr_matrices) {
-  int rows1 = 60;
-  int cols1 = 30;
-  int rows2 = 30;
-  int cols2 = 40;
-  double percent = 10;
+  int rows1 = 9001;
+  int cols1 = 3999;
+  int rows2 = 3999;
+  int cols2 = 6001;
+  double percent = 0.1;
   std::vector<std::vector<std::complex<double>>> mat1;
   std::vector<std::vector<std::complex<double>>> mat2;
   SparseComplexMatrix crsMat1;
@@ -65,14 +65,16 @@ TEST(SparceMatrixMultiplication, can_multimply_not_square_csr_matrices) {
   mat2 = randomMatrix(rows2, cols2, percent);
   crsMat1 = crsMat1.matrixToCRS(mat1);
   crsMat2 = crsMat2.matrixToCRS(mat2);
-  /*double start_seq = omp_get_wtime();*/
+  /*std::cout << crsMat1.getValuesNum() << "\n";
+  std::cout << crsMat2.getValuesNum() << "\n";*/
+  double start_seq = omp_get_wtime();
   crsMat3 = crsMat1 * crsMat2;
-  /*double end_seq = omp_get_wtime();
-  double start_par = omp_get_wtime();*/
+  double end_seq = omp_get_wtime();
+  double start_par = omp_get_wtime();
   crsMat4 = crsMat1.crsParallelMult(crsMat2);
-  /*double end_par = omp_get_wtime();
+  double end_par = omp_get_wtime();
   std::cout << "Seq time: " << end_seq - start_seq << "\n";
-  std::cout << "Par time: " << end_par - start_par << "\n";*/
+  std::cout << "Par time: " << end_par - start_par << "\n";
   ASSERT_TRUE(crsMat3 == crsMat4);
 }
 

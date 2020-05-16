@@ -217,6 +217,10 @@ SparseComplexMatrix SparseComplexMatrix::crsParallelMult(const SparseComplexMatr
   return result;
 }
 
+int SparseComplexMatrix::getValuesNum() {
+  return static_cast<int>(values.size());
+}
+
 void SparseComplexMatrix::printCRS() {
   for (unsigned i = 0; i < values.size(); ++i)
     std::cout << values[i] << " ";
